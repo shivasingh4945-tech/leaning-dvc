@@ -1,4 +1,5 @@
-# model.py
+import pandas as pd
+import os
 
 # Dataset: (size, bedrooms, price)
 data = [
@@ -10,10 +11,10 @@ data = [
 ]
 
 # Initialize weights and bias
-w1 = 0.0  # weight for size
-w2 = 0.0  # weight for bedrooms
-b = 0.0   # bias
-lr = 0.000000001  # learning rate
+w1 = 0.0
+w2 = 0.0
+b = 0.0
+lr = 0.000000001
 
 # Train using gradient descent
 for epoch in range(1000):
@@ -21,7 +22,6 @@ for epoch in range(1000):
         y_pred = w1 * size + w2 * bed + b
         error = y_pred - price
 
-        # Update parameters
         w1 -= lr * error * size
         w2 -= lr * error * bed
         b  -= lr * error
@@ -32,3 +32,18 @@ test_bed = 3
 prediction = w1 * test_size + w2 * test_bed + b
 
 print("Predicted price:", int(prediction))
+
+# ---------- SAVE DATA ----------
+data_dir = "data"
+os.makedirs(data_dir, exist_ok=True)
+
+# DEFINE df (this was missing)
+df = pd.DataFrame(
+    data,
+    columns=["size_sqft", "bedrooms", "price"]
+)
+
+file_path = os.path.join(data_dir, "sample_data.csv")
+df.to_csv(file_path, index=False)
+
+print(f"CSV file is saved to {file_path}")
